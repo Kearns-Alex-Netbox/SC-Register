@@ -1,0 +1,41 @@
+#All Checked Boards
+#	Author: Alex Kearns
+#
+# This is a comment on how to set up these text files for the search system.
+#	Each line that starts with a '#' denotes a comment and will not be looked at
+#	during the reading EXCEPT FOR the first line which is read as the title.
+# The first comment line is the text string that will be used to show the user which
+#	file they are about to select. Each title should be relevant to what data is going
+#	to be returned from the database.
+# The first line that will be read should be the complete SQL script that is used
+#	to combine all of the tables and columns that are needed. Each column needs to be
+#	followed by an [AS ''] with the display name of the column inside the single quotes.
+# The second line that will be read is the actual syntax that is needed to perform  the
+#	SQL script. Include the variable name with column name in the same order that they
+#	appear in the first line. This way the 'Column name' and the correct 'Syntax' will
+#	be paired. THESE ARE IMPORTANT! This is what allows the program to perform  the
+#	searching and sorting through the data that is returned to the datagrid.
+# The third line that will be read should have at least one column from the first line
+#	and all of the table joins from the first line. This will give the number of records
+#	that are returned to us either on the first command or with a search.
+#
+# Important to remember:
+#	- Each table needs to be represented with a variable even if you are using just one
+#	table. This is the syntax of the program, parse, and execution and needs to be 
+#	followed.
+#	- Always grab the serial number with the information that you plan on showing. This 
+#	makes it easier for the user to see and understand the data being presented to them.
+#	- Always make the serial number the first item in the SELECT statement and the column
+#	name. This is how the program will sort the data that the user searches for.
+#	- The three lines that you are going to use need to go one after another. DO NOT PUT
+#	EXTRA LINES IN-BETWEEN! Once the program finds the first 'readable' line, it will read
+#	ONLY the next two lines and then continue the program.
+#	- DO NOT put spaces after the commas in the second command line. This line gets parsed
+#	out and when they are placed into the variables inside the program the spaces are
+#	already being accounted for.
+#	- Recommend that you first try to make the SQL command inside the SQL Database first
+#	and then put it into the text file.
+#
+SELECT s.SerialNumber AS 'Board Serial Number', s.LastUpdate AS 'Last Update', s.MACAddress AS 'MAC Address', s.CPUID AS 'CPU ID', s.SoftwareVersion AS 'Software Version', s.BootloaderVersion AS 'Bootloader Version', s.HardwareVersion AS 'Hardware Version' FROM dbo.board s WHERE (s.[dbo.BoardStatus.id] = '135108A8-E737-48AB-9107-213F03EB4AA4' OR s.[dbo.BoardStatus.id] = 'F219C702-ECAC-4E50-B7FB-D7EFF580EBE4')
+s.SerialNumber,s.LastUpdate,s.MACAddress,s.CPUID,s.SoftwareVersion,s.BootloaderVersion,s.HardwareVersion
+SELECT COUNT(*) FROM dbo.Board s WHERE (s.[dbo.BoardStatus.id] = '135108A8-E737-48AB-9107-213F03EB4AA4' OR s.[dbo.BoardStatus.id] = 'F219C702-ECAC-4E50-B7FB-D7EFF580EBE4')

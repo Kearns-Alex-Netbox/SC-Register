@@ -1,0 +1,41 @@
+#All Systems
+#	Author: Alex Kearns
+#
+# This is a comment on how to set up these text files for the search system.
+#	Each line that starts with a '#' denotes a comment and will not be looked at
+#	during the reading EXCEPT FOR the first line which is read as the title.
+# The first comment line is the text string that will be used to show the user which
+#	file they are about to select. Each title should be relevant to what data is going
+#	to be returned from the database.
+# The first line that will be read should be the complete SQL script that is used
+#	to combine all of the tables and columns that are needed. Each column needs to be
+#	followed by an [AS ''] with the display name of the column inside the single quotes.
+# The second line that will be read is the actual syntax that is needed to perform  the
+#	SQL script. Include the variable name with column name in the same order that they
+#	appear in the first line. This way the 'Column name' and the correct 'Syntax' will
+#	be paired. THESE ARE IMPORTANT! This is what allows the program to perform  the
+#	searching and sorting through the data that is returned to the datagrid.
+# The third line that will be read should have at least one column from the first line
+#	and all of the table joins from the first line. This will give the number of records
+#	that are returned to us either on the first command or with a search.
+#
+# Important to remember:
+#	- Each table needs to be represented with a variable even if you are using just one
+#	table. This is the syntax of the program, parse, and execution and needs to be 
+#	followed.
+#	- Always grab the serial number with the information that you plan on showing. This 
+#	makes it easier for the user to see and understand the data being presented to them.
+#	- Always make the serial number the first item in the SELECT statement and the column
+#	name. This is how the program will sort the data that the user searches for.
+#	- The three lines that you are going to use need to go one after another. DO NOT PUT
+#	EXTRA LINES IN-BETWEEN! Once the program finds the first 'readable' line, it will read
+#	ONLY the next two lines and then continue the program.
+#	- DO NOT put spaces after the commas in the second command line. This line gets parsed
+#	out and when they are placed into the variables inside the program the spaces are
+#	already being accounted for.
+#	- Recommend that you first try to make the SQL command inside the SQL Database first
+#	and then put it into the text file.
+#
+SELECT s.SerialNumber AS 'System Serial Number', t.name AS 'System Type', s.LastUpdate AS 'Last Update', st.name AS 'System Status', b1.MACAddress AS 'MAC Address', b2.CPUID AS 'Main CPU ID', mb.SerialNumber AS 'Motherboard', s1.SerialNumber AS 'Main CPU', s2.SerialNumber AS 'Slot 2', s3.SerialNumber AS 'Slot 3', s4.SerialNumber AS 'Slot 4', s5.SerialNumber AS 'Slot 5', s6.SerialNumber AS 'Slot 6', s7.SerialNumber AS 'Slot 7', s.ParameterFile AS 'Parameter File', s.AttachFilename  AS 'Attached File Name' FROM dbo.System s LEFT JOIN dbo.systemType t ON s.[dbo.SystemType.id] = t.id LEFT JOIN dbo.board b1 ON s.[MainCPU.boardid] = b1.boardid LEFT JOIN dbo.board b2 ON s.[MainCPU.boardid] = b2.boardid LEFT JOIN dbo.board mb ON s.[MotherBoard.boardid] = mb.boardid LEFT JOIN dbo.board s1 ON s.[MainCPU.boardid] = s1.boardid LEFT JOIN dbo.board s2 ON s.[Slot2.boardid] = s2.boardid LEFT JOIN dbo.board s3 ON s.[Slot3.boardid] = s3.boardid LEFT JOIN dbo.board s4 ON s.[Slot4.boardid] = s4.boardid LEFT JOIN dbo.board s5 ON s.[Slot5.boardid] = s5.boardid LEFT JOIN dbo.board s6 ON s.[Slot6.boardid] = s6.boardid LEFT JOIN dbo.board s7 ON s.[Slot7.boardid] = s7.boardid LEFT JOIN dbo.SystemStatus st ON s.[dbo.SystemStatus.id] = st.id
+s.SerialNumber,t.name,s.LastUpdate,st.name,b1.MACAddress,b2.CPUID,mb.SerialNumber,s1.SerialNumber,s2.SerialNumber,s3.SerialNumber,s4.SerialNumber,s5.SerialNumber,s6.SerialNumber,s7.SerialNumber,s.ParameterFile,s.AttachFilename
+SELECT COUNT(*) FROM dbo.System s LEFT JOIN dbo.systemType t ON s.[dbo.SystemType.id] = t.id LEFT JOIN dbo.board b1 ON s.[MainCPU.boardid] = b1.boardid LEFT JOIN dbo.board b2 ON s.[MainCPU.boardid] = b2.boardid LEFT JOIN dbo.board mb ON s.[MotherBoard.boardid] = mb.boardid LEFT JOIN dbo.board s1 ON s.[MainCPU.boardid] = s1.boardid LEFT JOIN dbo.board s2 ON s.[Slot2.boardid] = s2.boardid LEFT JOIN dbo.board s3 ON s.[Slot3.boardid] = s3.boardid LEFT JOIN dbo.board s4 ON s.[Slot4.boardid] = s4.boardid LEFT JOIN dbo.board s5 ON s.[Slot5.boardid] = s5.boardid LEFT JOIN dbo.board s6 ON s.[Slot6.boardid] = s6.boardid LEFT JOIN dbo.board s7 ON s.[Slot7.boardid] = s7.boardid LEFT JOIN dbo.SystemStatus st ON s.[dbo.SystemStatus.id] = st.id

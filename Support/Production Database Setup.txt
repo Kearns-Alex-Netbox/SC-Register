@@ -1,0 +1,405 @@
+		Production Database Setup
+
+
+USE [master]
+GO
+
+/****** Object:  Database [Production]    Script Date: 12/6/2016 14:32:10 ******/
+CREATE DATABASE [Production]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Production', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.NAS1SQL\MSSQL\DATA\Production.mdf' , SIZE = 10240KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'Production_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.NAS1SQL\MSSQL\DATA\Production_log.ldf' , SIZE = 12352KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+
+ALTER DATABASE [Production] SET COMPATIBILITY_LEVEL = 120
+GO
+
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Production].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+
+ALTER DATABASE [Production] SET ANSI_NULL_DEFAULT OFF 
+GO
+
+ALTER DATABASE [Production] SET ANSI_NULLS OFF 
+GO
+
+ALTER DATABASE [Production] SET ANSI_PADDING OFF 
+GO
+
+ALTER DATABASE [Production] SET ANSI_WARNINGS OFF 
+GO
+
+ALTER DATABASE [Production] SET ARITHABORT OFF 
+GO
+
+ALTER DATABASE [Production] SET AUTO_CLOSE OFF 
+GO
+
+ALTER DATABASE [Production] SET AUTO_SHRINK OFF 
+GO
+
+ALTER DATABASE [Production] SET AUTO_UPDATE_STATISTICS ON 
+GO
+
+ALTER DATABASE [Production] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+
+ALTER DATABASE [Production] SET CURSOR_DEFAULT  GLOBAL 
+GO
+
+ALTER DATABASE [Production] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+
+ALTER DATABASE [Production] SET NUMERIC_ROUNDABORT OFF 
+GO
+
+ALTER DATABASE [Production] SET QUOTED_IDENTIFIER OFF 
+GO
+
+ALTER DATABASE [Production] SET RECURSIVE_TRIGGERS OFF 
+GO
+
+ALTER DATABASE [Production] SET  DISABLE_BROKER 
+GO
+
+ALTER DATABASE [Production] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+
+ALTER DATABASE [Production] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+
+ALTER DATABASE [Production] SET TRUSTWORTHY OFF 
+GO
+
+ALTER DATABASE [Production] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+
+ALTER DATABASE [Production] SET PARAMETERIZATION SIMPLE 
+GO
+
+ALTER DATABASE [Production] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+
+ALTER DATABASE [Production] SET HONOR_BROKER_PRIORITY OFF 
+GO
+
+ALTER DATABASE [Production] SET RECOVERY SIMPLE 
+GO
+
+ALTER DATABASE [Production] SET  MULTI_USER 
+GO
+
+ALTER DATABASE [Production] SET PAGE_VERIFY CHECKSUM  
+GO
+
+ALTER DATABASE [Production] SET DB_CHAINING OFF 
+GO
+
+ALTER DATABASE [Production] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+
+ALTER DATABASE [Production] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+
+ALTER DATABASE [Production] SET DELAYED_DURABILITY = DISABLED 
+GO
+
+ALTER DATABASE [Production] SET  READ_WRITE 
+GO
+
+		Tables
+
+USE [Production]
+GO
+
+/****** Object:  Table [dbo].[SystemType]    Script Date: 12/6/2016 14:35:44 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[SystemType](
+	[id] [uniqueidentifier] NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[BaseSerialNumber] [varchar](50) NULL,
+	[ServerModel] [varchar](50) NULL,
+ CONSTRAINT [PK_SystemType] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_stid] UNIQUE NONCLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+/****** Object:  Table [dbo].[SystemStatus]    Script Date: 12/6/2016 14:35:41 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[SystemStatus](
+	[id] [uniqueidentifier] NOT NULL,
+	[name] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_SystemStatus] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_ssid] UNIQUE NONCLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+/****** Object:  Table [dbo].[SystemParameters]    Script Date: 12/6/2016 14:35:37 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[SystemParameters](
+	[id] [varchar](50) NOT NULL,
+	[valuestring] [varchar](50) NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+/****** Object:  Table [dbo].[SystemDefinition]    Script Date: 12/6/2016 14:35:34 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[SystemDefinition](
+	[id] [uniqueidentifier] NOT NULL,
+	[SystemType.id] [uniqueidentifier] NOT NULL,
+	[BoardType.id] [uniqueidentifier] NOT NULL,
+	[SlotNumber] [int] NOT NULL,
+	[Mandatory] [bit] NOT NULL,
+	[LastChange] [date] NOT NULL
+) ON [PRIMARY]
+
+GO
+
+/****** Object:  Table [dbo].[SystemAudit]    Script Date: 12/6/2016 14:35:30 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[SystemAudit](
+	[id] [uniqueidentifier] NOT NULL,
+	[dbo.System.systemid] [uniqueidentifier] NOT NULL,
+	[LastUpdate] [datetime] NOT NULL,
+	[Comment] [text] NOT NULL,
+	[FailureReason] [varchar](50) NULL,
+	[User] [varchar](50) NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+/****** Object:  Table [dbo].[System]    Script Date: 12/6/2016 14:35:27 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[System](
+	[systemid] [uniqueidentifier] NOT NULL,
+	[dbo.SystemType.id] [uniqueidentifier] NULL,
+	[dbo.SystemStatus.id] [uniqueidentifier] NOT NULL,
+	[SerialNumber] [varchar](50) NOT NULL,
+	[ParameterFile] [varchar](255) NULL,
+	[BarcodeDate] [datetime] NULL,
+	[RegisterDate] [datetime] NULL,
+	[ParameterDate] [datetime] NULL,
+	[BurnInDate] [datetime] NULL,
+	[CheckoutDate] [datetime] NULL,
+	[ShipDate] [datetime] NULL,
+	[ReworkDate] [datetime] NULL,
+	[MotherBoard.boardid] [uniqueidentifier] NULL,
+	[MainCPU.boardid] [uniqueidentifier] NULL,
+	[Slot2.boardid] [uniqueidentifier] NULL,
+	[Slot3.boardid] [uniqueidentifier] NULL,
+	[Slot4.boardid] [uniqueidentifier] NULL,
+	[Slot5.boardid] [uniqueidentifier] NULL,
+	[Slot6.boardid] [uniqueidentifier] NULL,
+	[Slot7.boardid] [uniqueidentifier] NULL,
+	[AttachFilename] [varchar](255) NULL,
+	[LastUpdate] [datetime] NULL,
+ CONSTRAINT [PK_System] PRIMARY KEY CLUSTERED 
+(
+	[systemid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_SSerialNumber] UNIQUE NONCLUSTERED 
+(
+	[SerialNumber] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_systemid] UNIQUE NONCLUSTERED 
+(
+	[systemid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+/****** Object:  Table [dbo].[BoardType]    Script Date: 12/6/2016 14:35:23 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[BoardType](
+	[id] [uniqueidentifier] NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[BaseSerialNo] [varchar](50) NOT NULL,
+	[HardwareVersion] [varchar](50) NULL,
+ CONSTRAINT [PK_BoardType] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_bdid] UNIQUE NONCLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+/****** Object:  Table [dbo].[BoardStatus]    Script Date: 12/6/2016 14:35:19 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[BoardStatus](
+	[id] [uniqueidentifier] NOT NULL,
+	[name] [varchar](50) NOT NULL,
+ CONSTRAINT [AK_id] UNIQUE NONCLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+/****** Object:  Table [dbo].[BoardAudit]    Script Date: 12/6/2016 14:35:12 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[BoardAudit](
+	[id] [uniqueidentifier] NOT NULL,
+	[dbo.Board.boardid] [uniqueidentifier] NOT NULL,
+	[LastUpdate] [datetime] NOT NULL,
+	[Comment] [text] NOT NULL,
+	[FailureReason] [varchar](50) NULL,
+	[User] [varchar](50) NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+/****** Object:  Table [dbo].[Board]    Script Date: 12/6/2016 14:35:08 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[Board](
+	[boardid] [uniqueidentifier] NOT NULL,
+	[dbo.BoardType.id] [uniqueidentifier] NOT NULL,
+	[dbo.BoardStatus.id] [uniqueidentifier] NOT NULL,
+	[SerialNumber] [varchar](50) NOT NULL,
+	[LastUpdate] [datetime] NOT NULL,
+	[SoftwareVersion] [varchar](50) NULL,
+	[BootloaderVersion] [varchar](50) NULL,
+	[HardwareVersion] [varchar](50) NULL,
+	[MACAddress] [varchar](50) NULL,
+	[CPUID] [varchar](50) NULL,
+ CONSTRAINT [AK_boardid] UNIQUE NONCLUSTERED 
+(
+	[boardid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_BSerialNumber] UNIQUE NONCLUSTERED 
+(
+	[SerialNumber] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
