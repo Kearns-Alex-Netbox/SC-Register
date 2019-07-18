@@ -23,7 +23,7 @@ Public Module Variables
 	Public Const BSG_PRODUCTION			   As	  Integer = 2
 	Public Const BSG_DEVEL				   As	  Integer = 3
 
-	public		 CurrentIndex			   As	  Integer = NB_DEVEL
+	public		 CurrentIndex			   As	  Integer = NB_PRODUCTION
 	Public		 CurrentDatabase		   As	  String  = Databases(CurrentIndex)
 	Public		 CurrentCheckout		   As	  String  = checkoutLocations(CurrentIndex)
 

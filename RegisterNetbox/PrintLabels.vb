@@ -32,28 +32,9 @@ Public Class PrintLabels
 	End Sub
 
 	Private Sub Print_Button_Click() Handles Print_Button.Click
-		Dim result As String = ""
-		Dim systemType As String = ""
-		Dim serialRecord As Guid 
-
-		'Check to see that we exist and get out system type.
-		If sqlapi.GetSystemCurrentType(myCmd, myreader, Serial_TextBox.Text, systemType, result) = False Then
-			' check to see if we are a board
-			If sqlapi.GetBoardCurrentType(myCmd, myreader, Serial_TextBox.Text, serialRecord,systemType, result) = False Then
-				MsgBox(result)
-				Return
-			End If
-		End If
-
 		'Convert our quantity of labels to print into an integer.
-		Dim quantity As Integer = 0
-		Try
-			quantity = CInt(Quantity_TextBox.Text)
-		Catch ex As Exception
-			MsgBox("Please put in a positive whole number")
-			Return
-		End Try
-
+		Dim quantity As Integer = Qty_NumericUpDown.Value
+		
 		'Check to see that we are a positive integer.
 		If quantity <= 0 Then
 			MsgBox("Please put in a positive whole number")
@@ -64,7 +45,9 @@ Public Class PrintLabels
 			Return
 		End If
 
-		PrintLabels(Serial_TextBox.Text, quantity, myCmd, My.Settings.ZebraPrinter)
+		If PrintLabels(Serial_TextBox.Text, quantity, myCmd, My.Settings.ZebraPrinter) = False Then
+			Return
+		End If
 
 		'Continue to try to delete the file once we are done with it
 		Dim deleted = False
