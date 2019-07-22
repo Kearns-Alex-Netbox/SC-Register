@@ -311,7 +311,8 @@ Public Class BSG_Ship
 			Return false
 		End If
 
-		Dim fileName As String = My.Settings.TempFolder & "\" & Date_DTP.Text & " Shipment.txt"
+		' have to replace the '\' in the date time picker to not confuse with directory levels.
+		Dim fileName As String = My.Settings.TempFolder & "\" & Date_DTP.Text.Replace("\", "-") & " Shipment.txt"
 
 		Dim numberCompleted As Integer = 0
 
