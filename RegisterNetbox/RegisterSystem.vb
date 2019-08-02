@@ -100,9 +100,18 @@ Public Class RegisterSystem
 	End Sub
 
 	Private Function SaveChanges() As Boolean
-		Dim serialNumbers As String() = {MotherboardSerialNumber.Text, CPUSerialNumber.Text, Slot2SerialNumber.Text, Slot3SerialNumber.Text,
-										 Slot4SerialNumber.Text, Slot5SerialNumber.Text, Slot6SerialNumber.Text, Slot7SerialNumber.Text, Slot8SerialNumber.Text,
-										 Slot9SerialNumber.Text, Slot10SerialNumber.Text}
+		Dim serialNumbers As String() = {
+			MotherboardSerialNumber.Text.ToUpper(), 
+			CPUSerialNumber.Text.ToUpper(), 
+			Slot2SerialNumber.Text.ToUpper(), 
+			Slot3SerialNumber.Text.ToUpper(),
+			Slot4SerialNumber.Text.ToUpper(), 
+			Slot5SerialNumber.Text.ToUpper(), 
+			Slot6SerialNumber.Text.ToUpper(), 
+			Slot7SerialNumber.Text.ToUpper(), 
+			Slot8SerialNumber.Text.ToUpper(),
+			Slot9SerialNumber.Text.ToUpper(), 
+			Slot10SerialNumber.Text.ToUpper()}
 		Dim result As String = ""
         Dim slimModel As Boolean = False
         If CB_SystemType.Text = "ETS 7" Then
@@ -130,7 +139,7 @@ Public Class RegisterSystem
 		'	Return False
 		'End If
 
-		If sqlapi.AddSystemWithBoards(myCmd, myConn, SystemSerialNumber.Text, serialNumbers, CB_SystemType.SelectedValue.ToString, result, slimModel) = False Then
+		If sqlapi.AddSystemWithBoards(myCmd, myConn, SystemSerialNumber.Text.ToUpper(), serialNumbers, CB_SystemType.SelectedValue.ToString, result, slimModel) = False Then
 			MsgBox(result)
 			Return False
 		End If
@@ -294,7 +303,7 @@ FROM dbo.SystemDefinition y LEFT JOIN dbo.BoardType s ON y.[BoardType.id] = s.id
     Public Function CheckSystemAndMandatoryBoards() As Boolean
         'Check the slots to make sure they match our system definitions.
 		For index As Integer = 0 To MAX_NB_SLOTS - 1
-			If sqlapi.BSG_CheckSystemDefinition(myCmd, CB_SystemType.SelectedValue, index, SNOInputs(index).Text) = False Then
+			If sqlapi.BSG_CheckSystemDefinition(myCmd, CB_SystemType.SelectedValue, index, SNOInputs(index).Text.ToUpper()) = False Then
 				Return False
 			End If
 		Next

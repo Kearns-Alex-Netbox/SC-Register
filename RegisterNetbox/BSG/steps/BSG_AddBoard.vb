@@ -21,7 +21,7 @@ Public Class BSG_AddBoard
 
 		' make both of them the same starting number to handle the for loop later if only one is being added
 		' get the board SNO
-		Dim startboard As String = startingSNO.Substring(0, startingSNO.IndexOf("-"))
+		Dim startboard As String = startingSNO.Substring(0, startingSNO.IndexOf("-")).ToUpper()
 		Dim endboard As String = startboard
 
 		' get the board number
@@ -38,7 +38,7 @@ Public Class BSG_AddBoard
 		If endingSNO.Length <> 0 Then
 			' update the ending to what was set
 			endingnumber = endingSNO.Substring(endingSNO.IndexOf("-") + 1)
-			endboard = endingSNO.Substring(0, endingSNO.IndexOf("-"))
+			endboard = endingSNO.Substring(0, endingSNO.IndexOf("-")).ToUpper()
 			endNumDigits = endingSNO.Substring(endingSNO.IndexOf("-") + 1).Length
 			batchString = "BATCH: "
 		End If
@@ -118,7 +118,7 @@ Public Class BSG_AddBoard
 			Return
 		End If
 
-		Dim board As String = startingSNO.Substring(0, startingSNO.IndexOf("-"))
+		Dim board As String = startingSNO.Substring(0, startingSNO.IndexOf("-")).ToUpper()
 
 		' we only want to update if we are a different board
 		If lastboard.Equals(board) = True Then

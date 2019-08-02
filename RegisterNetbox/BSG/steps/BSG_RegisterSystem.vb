@@ -80,9 +80,15 @@ Public Class BSG_RegisterSystem
 	End Sub
 
 	Private Function SaveChanges() As Boolean
-		Dim serialNumbers() As String = {MotherboardSerialNumber.Text, CPUSerialNumber.Text, Slot2SerialNumber.Text, Slot3SerialNumber.Text, Slot4SerialNumber.Text}
+		Dim serialNumbers() As String = {
+			MotherboardSerialNumber.Text.ToUpper(), 
+			CPUSerialNumber.Text.ToUpper(), 
+			Slot2SerialNumber.Text.ToUpper(), 
+			Slot3SerialNumber.Text.ToUpper(), 
+			Slot4SerialNumber.Text.ToUpper()
+		}
 		Dim result          As String = ""
-		Dim SNO             As String = SystemSerialNumber.Text
+		Dim SNO             As String = SystemSerialNumber.Text.ToUpper()
 		Dim systemType      As String = CB_SystemType.SelectedValue.ToString
         
         ResultStatus.Text = ""
@@ -212,7 +218,7 @@ FROM dbo.SystemDefinition y LEFT JOIN dbo.BoardType s ON y.[BoardType.id] = s.id
     Public Function CheckMandatoryBoards() As Boolean
         'Check the slots to make sure they match our system definitions.
 		For index As Integer = 0 To MAX_BSG_SLOTS - 1
-			If sqlapi.BSG_CheckSystemDefinition(myCmd, CB_SystemType.SelectedValue, index, SNOInputs(index).Text) = False Then
+			If sqlapi.BSG_CheckSystemDefinition(myCmd, CB_SystemType.SelectedValue, index, SNOInputs(index).Text.ToUpper()) = False Then
 				Return False
 			End If
 		Next
