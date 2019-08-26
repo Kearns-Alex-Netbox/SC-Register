@@ -34,11 +34,8 @@ Public Class Ship
 
 		'Date logic checking
 		Dim errorMessage As String = ""
-		Dim infoDate As Date
+		Dim infoDate As Date = Date_DTP.Value.Date
 		Dim shipQuantity As Integer = Ship_NUD.Value
-
-		skippedStepsSNOs.Clear()
-		skippedSNOsDetails.Clear()
 
 		Dim totalNumber = 1
 
@@ -317,7 +314,7 @@ Public Class Ship
 		End If
 
 		' have to replace the '\' in the date time picker to not confuse with directory levels.
-		Dim fileName As String = My.Settings.TempFolder & "\" & Date_DTP.Text.Replace("\", "-") & " Shipment.txt"
+		Dim fileName As String = My.Settings.TempFolder & "\" & Date_DTP.Text.Replace("\", "-").Replace("/", "-") & " Shipment.txt"
 
 		Dim numberCompleted As Integer = 0
 

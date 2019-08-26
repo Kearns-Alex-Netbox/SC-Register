@@ -312,7 +312,7 @@ Public Class BSG_Ship
 		End If
 
 		' have to replace the '\' in the date time picker to not confuse with directory levels.
-		Dim fileName As String = My.Settings.TempFolder & "\" & Date_DTP.Text.Replace("\", "-") & " Shipment.txt"
+		Dim fileName As String = My.Settings.TempFolder & "\" & Date_DTP.Text.Replace("\", "-").Replace("/", "-") & " Shipment.txt"
 
 		Dim numberCompleted As Integer = 0
 
